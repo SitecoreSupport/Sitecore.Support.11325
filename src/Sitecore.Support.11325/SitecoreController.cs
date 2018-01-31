@@ -3,7 +3,7 @@
   using Sitecore;
   using Sitecore.Configuration;
   using Sitecore.Mvc.Extensions;
-  using Sitecore.Mvc.Filters;
+  using Sitecore.Support.Mvc.Filters;
   using Sitecore.Mvc.Presentation;
   using Sitecore.StringExtensions;
   using Sitecore.Web;
@@ -11,9 +11,9 @@
   using System.Web.Routing;
 
   [UsedImplicitly]
-  public class SitecoreController : Controller
+  public class SupportSitecoreController : Controller
   {
-    [RequireLogin]
+    [SupportRequireLogin]
     public virtual ActionResult Index()
     {
       if (this.Disabled())

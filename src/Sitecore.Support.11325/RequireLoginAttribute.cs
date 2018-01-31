@@ -8,16 +8,16 @@
   using System.Web.Mvc.Filters;
 
   [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-  public sealed class RequireLoginAttribute : FilterAttribute, IAuthenticationFilter
+  public sealed class SupportRequireLoginAttribute : FilterAttribute, IAuthenticationFilter
   {
     private readonly RequireLoginContext _requireLoginContext;
 
-    public RequireLoginAttribute()
+    public SupportRequireLoginAttribute()
         : this(new RequireLoginContext())
     {
     }
 
-    internal RequireLoginAttribute(RequireLoginContext requireLoginContext)
+    internal SupportRequireLoginAttribute(RequireLoginContext requireLoginContext)
     {
       Assert.ArgumentNotNull(requireLoginContext, "requireLoginContext");
       this._requireLoginContext = requireLoginContext;
@@ -25,7 +25,7 @@
 
     public void OnAuthentication(AuthenticationContext filterContext)
     {
-      if (this._requireLoginContext.IsPageModeNormal && this._requireLoginContext.RequireLogin && !filterContext.HttpContext.Request.IsAuthenticated)
+      if (this._requireLoginContext.IsPageModeNormal && this._requireLoginContext.RequireLogin && !filterContext.HttpContext.Request.IsAuthenticated && this._requireLoginContext.SiteLoginPage != filterContext.RequestContext.HttpContext.Request.Url.AbsolutePath)
       {
         filterContext.Result = new HttpUnauthorizedResult();
       }
